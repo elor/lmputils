@@ -36,6 +36,7 @@ lmpfile="$1"
 [ -f "$lmpfile" ] || fail
 logfile="$2"
 [ -f "$logfile" ] || fail
+tmpfile=/tmp/pid$$_$RANDOM.lmp
 
 # prepare directories
 mkdir -p rdf
@@ -82,16 +83,25 @@ $(
 EOF
 )
 
+# preparing lmp copy
+
+cp "$lmpfile" $tmpfile
+if [ "$(echo $atomstyle)" == "atom_style charge" ]; then
+  sed -i 's/\(\s*[0-9][0-9]*\s\s*[1-9][0-9]*\s\)\(\(\s*[-0-9.+e]*\)\{3\}\s*\)$/\1 0.0 \2 /' $tmpfile
+fi
+
 echo "running lammps"
 
 # lammps run
 lammps -nocite -log none -echo screen -screen none -suffix opt << EOF
 $atomstyle
-read_data $lmpfile
+read_data $tmpfile
 $pairstyle
 $rdffixes
 run 1
 EOF
+
+rm $tmpfile
 
 echo 
 echo "rdf calculations done"

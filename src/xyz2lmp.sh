@@ -6,7 +6,7 @@
 # syntax: $0 <dump.xyz> <log.lammps>
 
 # list of required software
-required="python atomsk tailxyz.sh perl"
+required="python atomsk perl"
 
 # show syntax and exit
 fail(){
@@ -40,17 +40,12 @@ fi
 xyzfile="$1"
 [ -f "$xyzfile" ] || fail
 lmpfile=`basename "$xyzfile" .xyz`.lmp
-tmpfile=/tmp/pid$$_$RANDOM.final.xyz
-
-# extract last xyz dataset
-tailxyz.sh "$xyzfile" > $tmpfile
 
 # retrieve unique types in order
-types=`echo $(sed -n '3,$ s/^\s*\([A-Z][a-z]*\)\s.*$/\1/p' $tmpfile | perl -ne 'if (!defined $x{$_}) { print $_; $x{$_} = 1; }' )`
+types=`echo $(sed -n '3,/^\s*[0-9]*\s*$/ s/^\s*\([A-Z][a-z]*\)\s.*$/\1/p' $xyzfile | perl -ne 'if (!defined $x{$_}) { print $_; $x{$_} = 1; }' )`
 
 rm "$lmpfile" 2>/dev/null
-atomsk $tmpfile "$lmpfile" | grep '.lmp'
-rm $tmpfile
+atomsk $xyzfile "$lmpfile" | grep '.lmp'
 
 # add zero charge to every atom if required (might work with reaxff only)
 if [ "$(echo $atomstyle)" == "atom_style charge" ]; then

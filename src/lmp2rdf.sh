@@ -9,7 +9,7 @@
 # TODO: module load
 
 # list of required software
-required="lammps python atomsk perl mass2element.py"
+required="lammps mass2element.py lmpcharges.sh"
 
 # show syntax and exit
 fail(){
@@ -36,7 +36,6 @@ lmpfile="$1"
 [ -f "$lmpfile" ] || fail
 logfile="$2"
 [ -f "$logfile" ] || fail
-tmpfile=/tmp/pid$$_$RANDOM.lmp
 
 # prepare directories
 mkdir -p rdf
@@ -85,9 +84,11 @@ EOF
 
 # preparing lmp copy
 
-cp "$lmpfile" $tmpfile
 if [ "$(echo $atomstyle)" == "atom_style charge" ]; then
-  sed -i 's/\(\s*[0-9][0-9]*\s\s*[1-9][0-9]*\s\)\(\(\s*[-0-9.+e]*\)\{3\}\s*\)$/\1 0.0 \2 /' $tmpfile
+  tmpfile=/tmp/pid$$_$RANDOM.lmp
+  lmpcharges.sh "$lmpfile" > $tmpfile
+else
+  tmpfile="$lmpfile"
 fi
 
 echo "running lammps"
@@ -101,7 +102,9 @@ $rdffixes
 run 1
 EOF
 
-rm $tmpfile
+if [ "$tmpfile" != "$lmpfile" ]; then
+  rm $tmpfile
+fi
 
 echo 
 echo "rdf calculations done"

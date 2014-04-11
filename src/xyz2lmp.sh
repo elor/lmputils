@@ -39,7 +39,7 @@ fi
 (( ${#@} == 1 )) || fail
 xyzfile="$1"
 [ -f "$xyzfile" ] || fail
-lmpfile=`basename "$xyzfile" .xyz`.lmp
+lmpfile=/tmp/pid$$_$RANDOM.lmp
 
 # retrieve unique types in order
 types=`echo $(sed -n '3,/^\s*[0-9]*\s*$/ s/^\s*\([A-Z][a-z]*\)\s.*$/\1/p' $xyzfile | perl -ne 'if (!defined $x{$_}) { print $_; $x{$_} = 1; }' )`
@@ -68,6 +68,8 @@ masslines=$(
 
 masslines="$(echo -e "$masslines" | sed 's/$/\\/')"
 
-sed -i "/^\s*Atoms/i $masslines
+sed "/^\s*Atoms/i $masslines
 " "$lmpfile"
+
+rm "$lmpfile"
 

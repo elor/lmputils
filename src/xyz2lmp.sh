@@ -45,7 +45,7 @@ lmpfile=/tmp/pid$$_$RANDOM.lmp
 types=`echo $(sed -n '3,/^\s*[0-9]*\s*$/ s/^\s*\([A-Z][a-z]*\)\s.*$/\1/p' $xyzfile | perl -ne 'if (!defined $x{$_}) { print $_; $x{$_} = 1; }' )`
 
 rm "$lmpfile" 2>/dev/null
-atomsk $xyzfile "$lmpfile" | grep '.lmp'
+atomsk $xyzfile "$lmpfile" >/dev/null
 
 # add zero charge to every atom if required (might work with reaxff only)
 if [ "$(echo $atomstyle)" == "atom_style charge" ]; then

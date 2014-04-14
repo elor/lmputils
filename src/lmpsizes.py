@@ -32,7 +32,9 @@ for line in lines:
   borders[line[3]] = float(line[1])
 
 # rescale the file
-rescaled = { x: borders[x]*scalefactor for x in borders }
+rescaled={}
+for key in borders.keys():
+  rescaled[key] = borders[key]*scalefactor
 
 # insert into old file and print
 if srcname != '--':

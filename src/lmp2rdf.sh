@@ -68,8 +68,12 @@ typepairs=$(
 
 # create lammps fixes
 rdffixes=$(cat <<EOF
-compute rdfALL all rdf 400
-fix ALL all ave/time 10 1 10 c_rdfALL file rdf/all.rdf mode vector
+$(
+  if (( ${#types_arr[@]} > 1 )); then
+    echo "compute rdfALL all rdf 400"
+    echo "fix ALL all ave/time 10 1 10 c_rdfALL file rdf/all.rdf mode vector"
+  fi
+)
 $(
   IFS=$'\r\n'
   for pair in $typepairs; do

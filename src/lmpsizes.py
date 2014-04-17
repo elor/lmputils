@@ -6,9 +6,9 @@ import sys, re
 
 def printHelp():
   sys.stderr.write("""\
-lmpsizes.sh, a tool for adjusting the size of a .lmp file
-Syntax: lmpsizes.sh <source.lmp> (operation)...
-        lmpsizes.sh -h|--help
+lmpsizes.py, a tool for adjusting the size of a .lmp file
+Syntax: lmpsizes.py <source.lmp> (operation)...
+        lmpsizes.py -h|--help
 
 Description:
     This script reads the size limits from basis.lmp, alters them using any number of operations and replaces the size limits of source.lmp. Results are printed to STDOUT. To read from STDIN, simply write '--' instead of a file name.
@@ -41,43 +41,43 @@ Operations:
 
 Examples:
     TODO: rewrite
-    Here are some examples of how to use lmpsizes.sh:
+    Here are some examples of how to use lmpsizes.py:
     
     Validate and print a slightly reformatted source.lmp
 
-            lmpsizes.sh source.lmp
+            lmpsizes.py source.lmp
 
     Read the new size for source.lmp from basis.lmp
 
-            lmpsizes.sh source.lmp :basis.lmp
+            lmpsizes.py source.lmp :basis.lmp
 
     Double the size of source.lmp (without moving any atoms):
 
-            lmpsizes.sh source.lmp *2.0
+            lmpsizes.py source.lmp *2.0
         or (fallback)
-            lmpsizes.sh source.lmp 2.0
+            lmpsizes.py source.lmp 2.0
 
     Add 5.0 units padding
 
-            lmpsizes.sh source.lmp +5.0
+            lmpsizes.py source.lmp +5.0
 
     Remove 5.0 units padding
 
-            lmpsizes.sh source.lmp -5.0
+            lmpsizes.py source.lmp -5.0
 
     Read from stdin
 
-            cat source.lmp | lmpsizes.sh --
-            cat source.lmp | lmpsizes.sh source.lmp :--
-            cat source.lmp | lmpsizes.sh -- :--
+            cat source.lmp | lmpsizes.py --
+            cat source.lmp | lmpsizes.py source.lmp :--
+            cat source.lmp | lmpsizes.py -- :--
 
     Scale to a certain volume
     
-            lmpsizes.sh source.lmp =7000
+            lmpsizes.py source.lmp =7000
     
     Write to file.lmp
 
-            lmpsizes.sh source.lmp > file.lmp
+            lmpsizes.py source.lmp > file.lmp
 
     Apply multiple operations
     
@@ -98,14 +98,14 @@ TODO
 
 Author
 
-    lmpsizes.sh was written by Erik E. Lorenz <erik.e.lorenz@gmail.com>
+    lmpsizes.py was written by Erik E. Lorenz <erik.e.lorenz@gmail.com>
   """)
 
 def suggestHelp():
   sys.stderr.write("""\
-Syntax: lmpsizes.sh <source.lmp> <basis.lmp> (operation)...
+Syntax: lmpsizes.py <source.lmp> (operation)...
 
-See lmpsizes.sh --help for detailed information.
+See lmpsizes.py --help for detailed information.
   """)
 
 def getVolume(sizes):

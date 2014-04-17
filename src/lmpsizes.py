@@ -7,7 +7,7 @@ import sys, re
 def printHelp():
   sys.stderr.write("""\
 lmpsizes.sh, a tool for adjusting the size of a .lmp file
-Syntax: lmpsizes.sh <source.lmp> <basis.lmp> (operation)...
+Syntax: lmpsizes.sh <source.lmp> (operation)...
         lmpsizes.sh -h|--help
 
 Description:
@@ -36,40 +36,52 @@ Operations:
     =[number]
         set the volume of the box to [number] units^3
 
+    :[file.lmp]
+        read the size of the box from file.lmp. Discards previous size operations
+
 Examples:
+    TODO: rewrite
     Here are some examples of how to use lmpsizes.sh:
     
-    Set the size of source.lmp to the size of basis.lmp
+    Validate and print a slightly reformatted source.lmp
 
-            lmpsizes.sh source.lmp basis.lmp
+            lmpsizes.sh source.lmp
+
+    Read the new size for source.lmp from basis.lmp
+
+            lmpsizes.sh source.lmp :basis.lmp
 
     Double the size of source.lmp (without moving any atoms):
 
-            lmpsizes.sh source.lmp source.lmp *2.0
+            lmpsizes.sh source.lmp *2.0
         or (fallback)
-            lmpsizes.sh source.lmp source.lmp 2.0
+            lmpsizes.sh source.lmp 2.0
 
     Add 5.0 units padding
 
-            lmpsizes.sh source.lmp source.lmp +5.0
+            lmpsizes.sh source.lmp +5.0
+
+    Remove 5.0 units padding
+
+            lmpsizes.sh source.lmp -5.0
 
     Read from stdin
 
-            cat source.lmp | lmpsizes.sh -- basis.lmp
-            cat source.lmp | lmpsizes.sh source.lmp --
-            cat source.lmp | lmpsizes.sh -- --
+            cat source.lmp | lmpsizes.sh --
+            cat source.lmp | lmpsizes.sh source.lmp :--
+            cat source.lmp | lmpsizes.sh -- :--
 
     Scale to a certain volume
     
-            lmpsizes.sh source.lmp basis.lmp =7000
+            lmpsizes.sh source.lmp =7000
     
     Write to file.lmp
 
-            lmpsizes.sh source.lmp basis.lmp > file.lmp
+            lmpsizes.sh source.lmp > file.lmp
 
     Apply multiple operations
     
-            lmpsizes source.lmp basis.lmp =7000.0 +5.0 *0.95
+            lmpsizes source.lmp :basis.lmp =7000.0 +5.0 *0.95
 
 TODO
 
@@ -127,6 +139,10 @@ def operationAddPadding(data, padding):
   data['sizes'] = padded
   return data
 
+def operationReadSize(data, filename):
+  data['sizes'] = parseSizes(readFile(filename))
+  return data
+
 def isNumber(string):
   try:
     float(string)
@@ -149,8 +165,8 @@ def chainOperation(string, operation):
   elif code == '=':
     value = float(rest)
     return lambda x: operationSetVolume(operation(x), value)
-  elif code == '-':
-    raise RuntimeError("unknown operation", string)
+  elif code == ':':
+    return lambda x: operationReadSize(operation(x), rest)
   elif isNumber(string):
     return chainOperation('*%s'%string, operation)
   else:
@@ -238,9 +254,9 @@ def readFile(filename):
       return stdin[:]
   else:
     try:
-      thefile=open(basisname)
+      thefile=open(filename)
     except IOError:
-      sys.stderr.write("Cannot open file '%s'\n\n"%basisname)
+      sys.stderr.write("Cannot open file '%s'\n\n"%filename)
       sys.exit(1)
 
     lines = [ line for line in thefile ]
@@ -264,8 +280,8 @@ def parseAtoms(lines):
 
 def parseData(lines):
   data = {
-    sizes: parseSizes(lines),
-    atoms: parseAtoms(lines),
+    'sizes': parseSizes(lines),
+    'atoms': parseAtoms(lines),
   }
 
   return data
@@ -291,29 +307,21 @@ try:
 except ValueError:
   pass
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 2:
   suggestHelp()
   sys.exit(1)
 
 srcname = sys.argv[1]
-basisname = sys.argv[2]
 
 # daisychain operations
 operation = lambda x: x
-for i in range(3, len(sys.argv)):
+for i in range(2, len(sys.argv)):
   operation = chainOperation(sys.argv[i], operation)
 
 lines = readFile(srcname)
 
 # read sizes from basisfile
-sizes=parseSizes(readFile(basisname))
-# read atoms from srcfile
-atoms = parseAtoms(lines)
-
-data = {
-  'sizes' : sizes,
-  'atoms' : atoms,
-}
+data=parseData(lines)
 
 # apply all operations
 data = operation(data)

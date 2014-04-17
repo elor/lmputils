@@ -1,15 +1,9 @@
 #!/bin/bash
 #
-# creates final.xyz, converts it to lmp data file, corrects it and invokes
-# lammps for rdf calculation
-# 
 # syntax: $0 <dump.xyz> <log.lammps>
-#
-# TODO: PBS options
-# TODO: module load
 
 # list of required software
-required=""
+required="lmpsizes.sh"
 
 # show syntax and exit
 fail(){
@@ -35,5 +29,5 @@ fi
 lmpfile="$1"
 [ -f "$lmpfile" ] || fail
 
-sed 's/\(\s*[0-9][0-9]*\s\s*[1-9][0-9]*\s\)\(\(\s*[-0-9.+e]*\)\{3\}\s*\)$/\1 0.0 \2 /' $lmpfile
+lmpsizes.py "$lmpfile"
 

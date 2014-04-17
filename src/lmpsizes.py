@@ -39,6 +39,9 @@ Operations:
     :[file.lmp]
         read the size of the box from file.lmp. Discards previous size operations
 
+    s[number]
+        shrink-wrap the box and add [number] units as padding
+
 Examples:
     TODO: rewrite
     Here are some examples of how to use lmpsizes.py:
@@ -91,7 +94,6 @@ TODO
         * Output to a predefined file: "-o <output.lmp>"
         * Validation of input ranges (non-negative scaling, etc.)
         * Validation of atom positions ( >= atom positions)
-        * shrink-wrap (with padding): "s[number]"
         * modify atom positions
         * periodic images of atoms
         * read sizes from a parameter instead of basis.lmp
@@ -112,8 +114,7 @@ def getVolume(sizes):
   volume = 1.0;
   volume *= sizes['xhi']-sizes['xlo']
   volume *= sizes['yhi']-sizes['ylo']
-  if sizes.has_key('zhi') and sizes.has_key('zlo'):
-    volume *= sizes['zhi']-sizes['zlo']
+  volume *= sizes['zhi']-sizes['zlo']
   return volume
 
 def operationSetVolume(data, volume):
@@ -143,6 +144,26 @@ def operationReadSize(data, filename):
   data['sizes'] = parseSizes(readFile(filename))
   return data
 
+def operationShrinkWrap(data):
+  atoms = data['atoms']
+  xmin = min([ a['x'] for a in atoms])
+  xmax = max([ a['x'] for a in atoms])
+  ymin = min([ a['y'] for a in atoms])
+  ymax = max([ a['y'] for a in atoms])
+  zmin = min([ a['z'] for a in atoms])
+  zmax = max([ a['z'] for a in atoms])
+  
+  sizes = data['sizes']
+  sizes['xlo'] = xmin
+  sizes['xhi'] = xmax
+  sizes['ylo'] = ymin
+  sizes['yhi'] = ymax
+  sizes['zlo'] = zmin
+  sizes['zhi'] = zmax
+
+  data['sizes'] = sizes
+  return data
+
 def isNumber(string):
   try:
     float(string)
@@ -165,6 +186,12 @@ def chainOperation(string, operation):
   elif code == '=':
     value = float(rest)
     return lambda x: operationSetVolume(operation(x), value)
+  elif code == 's':
+    if len(rest) == 0:
+      value = 0.0
+    else:
+      value = float(rest)
+    return lambda x: operationAddPadding(operationShrinkWrap(operation(x)), value)
   elif code == ':':
     return lambda x: operationReadSize(operation(x), rest)
   elif isNumber(string):
@@ -231,6 +258,7 @@ def atomToLine(atom):
 def parseSizes(lines):
   sizes={}
 
+#  sizelines=[ line.split() for line in lines if re.match('^([-+.0-9eE]+\s+){2}\([xyz]\)lo\s+\2hi$', line.strip()) ]
   sizelines=[ line.split() for line in lines if re.match('^([-+.0-9eE]+\s+){2}[xyz]lo\s+[xyz]hi$', line.strip()) ]
 
   for line in sizelines:

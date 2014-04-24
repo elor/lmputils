@@ -53,6 +53,7 @@ int main(int argc, char **argv)
   lmphandle lmp = lmp2atomstyle_create();
 
   char style[BUFFERSIZE];
+  memset(style, '\0', BUFFERSIZE);
 
   while (!feof(input)) {
     charsread = getline(&line, &linesize, input);
@@ -75,6 +76,10 @@ int main(int argc, char **argv)
   
   finish(input);
 
-  printf("%s", style);
-
+  if (strlen(style) == 0) {
+    return 1;
+  } else {
+    printf("%s", style);
+    return 0;
+  }
 }

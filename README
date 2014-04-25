@@ -1,0 +1,4 @@
+lmpio, a C library to load lmp files into a list of atom positions, types and
+domain sizes
+
+For further information, see README.md

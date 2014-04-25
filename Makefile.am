@@ -13,8 +13,8 @@ AM_CPPFLAGS = -Iinclude #-fopenmp
 #nobase_include_HEADERS = include/THIS.h
 
 bin_PROGRAMS = lmpio
-lmpio_SOURCES = src/main.cpp
-lmpio_LDDAD = -llammps_custom -lmpi_stubs
+lmpio_SOURCES = src/main.cpp src/lmpio.cpp
+lmpio_LDADD = -llammps_custom -lmpi_stubs
 lmpio_LDFLAGS = -lfftw3 -lenskmc
 
 #bin_SCRIPTS = src/*.sh

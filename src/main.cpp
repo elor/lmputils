@@ -1,31 +1,35 @@
 #include <iostream>
+#include <cstdlib>
 
-#include <mpi.h>
-#include <lammps.h>
-#include <atom.h>
-#include <input.h>
-#include <library.h>
-
-#include <read_data.h>
+#include <lmpio.h>
 
 using namespace std;
-using namespace LAMMPS_NS;
 
 int main(int argc, char **argv)
 {
-  LAMMPS lammps(0, NULL, MPI_COMM_WORLD);
+  if (argc != 2) {
+    cerr << "invalid number of arguments: " << argc-1 << endl;
+    return 1;
+  }
 
-  //  lammps.input->one("atom_style charge");
-  char style[]="charge";
-  lammps.atom->create_avec("charge", 0, NULL, lammps.suffix);
-  //  lammps.input->one("read_data Silane.lmp");
+  double *positions = NULL;
+  double *masses = NULL;
+  int *types = NULL;
+  double *sizes = NULL;
+  char *atom_style = NULL;
 
-  ReadData rd(&lammps);
-  char arg[] = "Silane.lmp";
-  char *argp = arg;
-  rd.command(1, &argp);
+  lmpio_read(argv[1], &positions, &types, &masses, &sizes, &atom_style);
 
-  cout << lammps.atom->natoms << " Atoms loaded" << endl;
+  if (positions)
+    free(positions);
+  if (masses)
+    free(masses);
+  if (types)
+    free(types);
+  if (sizes)
+    free(sizes);
+  if (atom_style)
+    free(atom_style);
 
   return 0;
 }

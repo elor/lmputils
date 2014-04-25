@@ -13,9 +13,8 @@ include_HEADERS = include/lmp2atomstyle.h
 #nobase_include_HEADERS = include/lmp2atomstyle.h
 
 bin_PROGRAMS = lmp2atomstyle
-lmp2atomstyle_SOURCES = src/lmp2atomstyle.c src/main.c
-lmp2atomstyle_LDFLAGS = -lArgumentParser
-lmp2atomstyle_CFLAGS = $(AM_CFLAGS)
+lmp2atomstyle_SOURCES = src/main.c
+lmp2atomstyle_LDFLAGS = -lArgumentParser -llmp2atomstyle
 
 #bin_SCRIPTS = src/*.sh
 

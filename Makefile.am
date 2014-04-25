@@ -8,10 +8,10 @@ liblmpio_la_SOURCES = src/lmpio.cpp
 liblmpio_la_LDFLAGS = -version-info 1:0:0
 include_HEADERS = include/lmpio.h
 
-bin_PROGRAMS = lmpio
-lmpio_SOURCES = src/main.cpp
-lmpio_LDADD = -llammps_custom -lmpi_stubs
-lmpio_LDFLAGS = -lfftw3 -lenskmc -llmp2atomstyle -llammps_custom -llmpio
+check_PROGRAMS = lmpiotest
+lmpiotest_SOURCES = src/main.cpp
+lmpiotest_LDADD = -llammps_custom -lmpi_stubs
+lmpiotest_LDFLAGS = -lfftw3 -lenskmc -llmp2atomstyle -llammps_custom -llmpio
 
 #bin_SCRIPTS = src/*.sh
 

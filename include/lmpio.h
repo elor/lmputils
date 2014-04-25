@@ -9,11 +9,11 @@ extern "C" {
    *
    * if you set an output argument to NULL, it will be ignored
    *
-   * @return number of atoms on success, 0 on format error, -1 on internal failure
+   * @return 0 on success
    */
-  extern int lmpio_read(const char *filename, double **positions, int **types, double **masses, double **size, char **atom_style);
+  extern int lmpio_read(const char *filename, double **positions, int **types, double **masses, double **size, char **atom_style, int *numatoms, int *numstyles);
   
-  extern int lmpio_write(const char *filename, int numatoms, double *positions, int *types, double *masses, double *size, char **atom_style);
+  extern int lmpio_write(const char *filename, int numatoms, int numtypes, double *positions, int *types, double *masses, double *size, char **atom_style);
   
 #ifdef __cplusplus
 }

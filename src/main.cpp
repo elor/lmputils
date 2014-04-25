@@ -15,10 +15,32 @@ int main(int argc, char **argv)
   double *positions = NULL;
   double *masses = NULL;
   int *types = NULL;
-  double *sizes = NULL;
+  double *size = NULL;
   char *atom_style = NULL;
+  int numtypes, numatoms;
 
-  lmpio_read(argv[1], &positions, &types, &masses, &sizes, &atom_style);
+  if (lmpio_read(argv[1], &positions, &types, &masses, &size, &atom_style, &numatoms, &numtypes)) {
+    cerr << "read error" << endl;
+    return 1;
+  }
+
+  cout << "numatoms: " << numatoms << endl;
+  cout << "numtypes: " << numtypes << endl;
+
+  for (size_t i = 0; i < numatoms; ++i) {
+    cout << (i+1) << " " << types[i] << " " << positions[3*i] << " " << positions[3*i+1] << " " << positions[3*i+2] << endl;
+  }
+
+  for (size_t j = 0; j < numtypes; ++j) {
+    cout << (j+1) << " " << masses[j] << endl;
+  }
+
+  cout << "[ ";
+  for (size_t k = 0; k < 6; ++k) {
+    cout << size[k] << " ";
+  }
+  cout << "]" << endl;
+
 
   if (positions)
     free(positions);
@@ -26,8 +48,8 @@ int main(int argc, char **argv)
     free(masses);
   if (types)
     free(types);
-  if (sizes)
-    free(sizes);
+  if (size)
+    free(size);
   if (atom_style)
     free(atom_style);
 

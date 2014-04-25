@@ -2,7 +2,7 @@
 
 #include <lmp2atomstyle.h>
 
-#include <iostream>
+//#include <iostream>
 #include <cassert>
 #include <cstring>
 #include <vector>
@@ -50,7 +50,7 @@ extern int lmpio_read(const char *filename, double **positions, int **types, dou
   free(lmp);
 
   if (ret != 0) {
-    cerr << "cannot read atom_style from lmp file " << filename << endl;
+    //    cerr << "cannot read atom_style from lmp file " << filename << endl;
     return 4;
   }
 
@@ -65,7 +65,7 @@ extern int lmpio_read(const char *filename, double **positions, int **types, dou
   // "-screen" won't be set, because when lammps calls fail, they will call exit(1)
   // this way, the user can at least see where LAMMPS failed
   // obvious drawback: the user sees all unfiltered lammps output
-  string opts = "ald -log none -echo none -suffix opt -nocite";
+  string opts = "lmpio -log none -echo none -suffix opt -nocite";
 
   vector<string> tokens;
   istringstream iss(opts);
@@ -76,15 +76,17 @@ extern int lmpio_read(const char *filename, double **positions, int **types, dou
 
   char ** argv = new char*[tokens.size()];
 
+  //  cout << tokens.size() << endl;
+
   for (int i = 0; i < tokens.size(); ++i) {
     argv[i] = strdup(tokens[i].c_str());
+    //    cout << argv[i] << endl;
   }
 
   int argc = tokens.size();
 
   LAMMPS lammps(argc, argv, MPI_COMM_WORLD);
-  for (int i = 0; i < tokens.size(); ++i)
-    {
+  for (int i = 0; i < tokens.size(); ++i) {
       free(argv[i]);
     }
 
@@ -205,6 +207,6 @@ extern int lmpio_read(const char *filename, double **positions, int **types, dou
 }
   
 extern int lmpio_write(const char *filename, int numatoms, int numtypes, double *positions, int *types, double *masses, double *size, char **atom_style) {
-  cerr << "lmpio_write not implemented yet" << endl;
+  //  cerr << "lmpio_write not implemented yet" << endl;
   return -1;
 }

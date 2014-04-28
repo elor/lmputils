@@ -1,4 +1,10 @@
-lmpio, a C library to load lmp files into a list of atom positions, types and
-domain sizes
+lmputils, a collection of C, bash and python libraries to support working with
+the .lmp lammps data format.
 
 For further information, see README.md
+
+Contained libraries/programs:
+
+liblmpio: load .lmp files into a program. Requires a lammps installation
+(liblmp2atomstyle: guess the atom_style you should use with a .lmp file
+

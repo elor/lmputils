@@ -19,8 +19,10 @@ int main(int argc, char **argv)
   char *atom_style = NULL;
   int numtypes, numatoms;
 
-  if (lmpio_read(argv[1], &positions, &types, &masses, &size, &atom_style, &numatoms, &numtypes)) {
-    cerr << "read error" << endl;
+  int ret = lmpio_read(argv[1], &positions, &types, &masses, &size, &atom_style, &numatoms, &numtypes);
+
+  if (ret != 0) {
+    cerr << "read error #" << ret << endl;
     return 1;
   }
 

@@ -50,7 +50,7 @@ extern int lmpio_read(const char *filename, double **positions, int **types, dou
   free(lmp);
 
   if (ret != 0) {
-    //    cerr << "cannot read atom_style from lmp file " << filename << endl;
+    //    cerr << "cannot read atom_style from lmp file " << filename << ". error #" << ret << endl;
     return 4;
   }
 

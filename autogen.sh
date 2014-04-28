@@ -2,5 +2,5 @@
 #
 # prepare build environment
 
-mkdir m4
+mkdir -p m4
 autoreconf --force --install -I config -I m4

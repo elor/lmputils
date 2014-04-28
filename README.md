@@ -1,7 +1,8 @@
-# lmpio
+# lmputils
+
 ## Description
 
-lmpio provides a few functions to read from and (eventually) write to lmp files.
+lmputils provide a set of helper programs for working with lammps data files.
 
 ## Installation
 
@@ -9,9 +10,18 @@ lmpio provides a few functions to read from and (eventually) write to lmp files.
     make
     make install
 
-## Usage
+## Contents
 
-_insert read function here_
+### lmp2atomstyle
 
-_insert write function here_
+Both a program and a library which guesses the required atom_style for a file
+
+TODO add usage section
+
+### lmpio
+
+the lmpio library provides a few functions to read from and (eventually) write
+to lmp files.
+
+TODO add usage section
 

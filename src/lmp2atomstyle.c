@@ -75,23 +75,42 @@ extern int lmp2atomstyle_parse_file(lmphandle handle, const char *filename) {
   int ret;
   while (!feof(file)) {
     read = getline(&line, &len, file);
-    
+#ifdef DEBUG
+    printf("read: ");
+    printf(line);
+#endif
+
     switch (read) {
     case -1:
       if (!feof(file)) {
-        perror("lmp2atomstyle_parse_file: unexpected error");
+        perror("lmp2atomstyle_parse_file: unexpected error\n");
+        free(line);
+        line = NULL;
         return -1;
       }
-      continue;
+#ifdef DEBUG
+      printf("eof\n");
+#endif
+      break;
     case 0:
       // ignore empty lines
-      continue;
-    default: 
+#ifdef DEBUG
+      printf("empty\n");
+#endif
+      break;
+    default:
+      ret = lmp2atomstyle_parse_line(handle, line);
+#ifdef DEBUG
+      printf("parsed. ret: %d\n", ret);
+#endif
       // pass
       break;
     }
 
-    ret = lmp2atomstyle_parse_line(handle, line);
+#ifdef DEBUG
+    printf("line freed\n");
+#endif
+
     free(line);
     line = NULL;
     if (ret != 0) {
@@ -141,7 +160,7 @@ extern int lmp2atomstyle_parse_buffer(lmphandle handle, const char *buffer) {
 
       memcpy(linebuf, start, linelength);
       linebuf[linelength] = '\0';
-      
+
       ret = lmp2atomstyle_parse_line(handle, linebuf);
       if (ret != 0) {
         perror("lmp2atomstyle_parse_file: unexpected error");
@@ -183,7 +202,7 @@ bool isSectionName(const char *name) {
   if (!isupper(name[0])) {
     return false;
   }
-  
+
   size_t len = strlen(name);
   size_t i;
   for (i = 1; i < len; ++i) {
@@ -204,7 +223,7 @@ size_t countwords(const char *line) {
   bool wasspace = true;
 
   const char *ptr = line;
-  
+
   while (*ptr != '\0') {
     if (isspace(*ptr)) {
       wasspace = true;
@@ -283,7 +302,7 @@ extern int lmp2atomstyle_parse_line(lmphandle handle, const char *line) {
       free(buf);
       return 0;
     }
-    
+
     free(buf);
   }
 
@@ -325,7 +344,7 @@ extern int lmp2atomstyle_parse_line(lmphandle handle, const char *line) {
     }
     break;
   case inatoms:
-    if (lmp->numprops == 0) {   
+    if (lmp->numprops == 0) {
       // only read the line if we haven't read the number of props before
       lmp->numprops = (uint8_t)countwords(line);
     }
@@ -375,7 +394,7 @@ int apply_style(char *out_style, size_t buflen, const char *style) {
  * Retrieves the atom style and places it in out_style
  * 
  * @return 0 on success
- */  
+ */
 extern int lmp2atomstyle_get_style(lmphandle handle, char *out_style, size_t buflen) {
   if (!handle) {
     return -1;

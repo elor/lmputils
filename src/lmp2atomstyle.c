@@ -423,12 +423,12 @@ extern int lmp2atomstyle_get_style(lmphandle handle, char *out_style, size_t buf
       style = "charge";
     if (n == 7)
       style = "peri/sphere";
-    if (n == 9) 
+    if (n == 9)
       style = "charge/dipole";
     if (n == 10)
       style = "peri/sphere";
     if (n == 12)
-      style == "dipole";
+      style = "dipole";
     break;
   case 0x101:
     if (n == 7 || n == 10)

@@ -27,3 +27,5 @@ stamp-h1
 lmp2atomstyle
 *.orig
 lmpiotest
+.cproject
+.project

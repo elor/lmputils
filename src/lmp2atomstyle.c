@@ -153,7 +153,7 @@ extern int lmp2atomstyle_parse_buffer(lmphandle handle, const char *buffer) {
     if (linelength > 0) {
       if (linelength >= BUFFERSIZE) {
         sprintf(linebuf, "lmp2atomstyle_parse_buffer: BUFFERSIZE too low:\nBUFFERSIZE=%lu\nlinelength=%lu\n", BUFFERSIZE, linelength);
-        perror(linebuf);
+        fprintf(stderr, linebuf);
         end = start = NULL;
         break;
       }
@@ -163,7 +163,7 @@ extern int lmp2atomstyle_parse_buffer(lmphandle handle, const char *buffer) {
 
       ret = lmp2atomstyle_parse_line(handle, linebuf);
       if (ret != 0) {
-        perror("lmp2atomstyle_parse_file: unexpected error");
+        fprintf(stderr, "lmp2atomstyle_parse_file: unexpected error");
         return -1;
       }
     }
@@ -309,7 +309,7 @@ extern int lmp2atomstyle_parse_line(lmphandle handle, const char *line) {
   // distinguish the sections
   switch (lmp->flags & sections) {
   case incomment:
-    perror("lmp2atomstyle_parse_line: incomment during parsing");
+    fprintf(stderr, "lmp2atomstyle_parse_line: incomment during parsing");
     return -1;
   case inheaders:
     // read headers
@@ -353,7 +353,7 @@ extern int lmp2atomstyle_parse_line(lmphandle handle, const char *line) {
     // wait for a section
     break;
   default:
-    perror("internal error: unknown section flag");
+    fprintf(stderr, "internal error: unknown section flag");
     break;
   }
 
@@ -383,7 +383,7 @@ int apply_style(char *out_style, size_t buflen, const char *style) {
   }
 
   if (strlen(style) + 1 > buflen) {
-    perror("lmp2atomstyle_get_style: output buffer out_style too small");
+    fprintf(stderr, "lmp2atomstyle_get_style: output buffer out_style too small");
     return -1;
   }
 

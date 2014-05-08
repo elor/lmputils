@@ -79,7 +79,7 @@ int main(int argc, char **argv)
   if (strlen(style) == 0) {
     return 1;
   } else {
-    printf("%s", style);
+    printf("%s\n", style);
     return 0;
   }
 }

@@ -348,6 +348,7 @@ extern int lmp2atomstyle_parse_line(lmphandle handle, const char *line) {
       // only read the line if we haven't read the number of props before
       lmp->numprops = (uint8_t)countwords(line);
     }
+    break;
   case nosection:
     // wait for a section
     break;

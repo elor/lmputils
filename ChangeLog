@@ -2,3 +2,5 @@
 
 	* src/lmpio.cpp: autoformatted
 
+	* lmpcharges.sh: lmpsizes.sh reference corrected to lmpsizes.py
+

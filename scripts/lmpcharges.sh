@@ -3,7 +3,7 @@
 # syntax: $0 <dump.xyz> <log.lammps>
 
 # list of required software
-required="lmpsizes.sh"
+required="lmpsizes.py"
 
 # show syntax and exit
 fail(){

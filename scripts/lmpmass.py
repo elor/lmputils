@@ -5,7 +5,7 @@
 import sys, re
 
 if len(sys.argv) != 2:
-  sys.stderr.write("Syntax: %s <file.lmp>\n")
+  sys.stderr.write("Syntax: %s <file.lmp>\n"%sys.argv[0])
   sys.exit(1)
 
 filename = sys.argv[1]

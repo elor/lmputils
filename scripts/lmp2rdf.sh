@@ -97,19 +97,26 @@ fi
 
 echo "running lammps"
 
-# lammps run
-lammps -nocite -log none -echo screen -screen none -suffix opt << EOF
+lammpscmds="
 $atomstyle
 read_data $tmpfile
 $pairstyle
 $rdffixes
 run 1
+"
+
+#echo -e "$lammpscmds"
+
+# lammps run
+lammps -nocite -echo screen -log none -suffix opt << EOF
+$lammpscmds
 EOF
+
+echo
+
+(( $? != 0 )) && echo "lammps failed!" || echo "rdf calculations done"
 
 if [ "$tmpfile" != "$lmpfile" ]; then
   rm $tmpfile
 fi
-
-echo 
-echo "rdf calculations done"
 

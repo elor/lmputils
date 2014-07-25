@@ -25,7 +25,7 @@ done
 if [ -n "$missing" ];then
   echo "This script requires the following libraries:" >&2
   echo -e "$missing" | sed 's/^/* /' >&2
-  echo
+  echo >&2
   fail
 fi
 
@@ -41,7 +41,7 @@ tmpfile2=`sed 's/\.lmp$/.dump/' <<< $tmpfile`
 
 [ $tmpfile == $tmpfile2 ] && echo "internal error: tmpfile == tmpfile2" >&2 && exit
 
-echo "running lammps"
+echo "running lammps" >&2
 
 numtypes="`sed -n 's/^\s*\([0-9]\+\)\s\+atom\stypes\s*$/\1/p' $tmpfile`"
 
@@ -50,8 +50,6 @@ numtypes="`sed -n 's/^\s*\([0-9]\+\)\s\+atom\stypes\s*$/\1/p' $tmpfile`"
 setmasses="$(for f in `seq 1 $numtypes`; do
 	echo "mass $f 1.0"
 done)"
-
-echo $setmasses
 
 lammpscmds="
 units real
@@ -66,16 +64,16 @@ fix 1 all nve
 run 1
 "
 
-#echo -e "$lammpscmds"
+#echo -e "$lammpscmds" >&2
 
 # lammps run
-lammps -nocite -echo screen -log none -suffix opt << EOF
+lammps -nocite -echo screen -log none -suffix opt >&2 << EOF
 $lammpscmds
 EOF
 
-echo
+echo >&2
 
-(( $? != 0 )) && echo "lammps failed!" || echo "dump conversion finished"
+(( $? != 0 )) && echo "lammps failed!" >&2 || echo "dump conversion finished" >&2
 
 if [ "$tmpfile" != "$lmpfile" ]; then
   rm $tmpfile

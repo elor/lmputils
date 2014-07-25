@@ -34,11 +34,7 @@ fi
 lmpfile="$1"
 [ -f "$lmpfile" ] || fail
 
-# prepare directories
-mkdir -p rdf
-
 # preparing lmp copy
-
 tmpfile=/tmp/pid$$_$RANDOM.lmp
 lmpcharges.sh "$lmpfile" > $tmpfile
 tmpfile2=`sed 's/\.lmp$/.dump/' <<< $tmpfile`

@@ -1,3 +1,11 @@
+2014-08-04	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
+
+	* scripts/lmp2rdf.sh: reading atomstyle from 'lmp2tomstyle' program, which is based on the lammps library
+	using dummy LJ potential (1 nm cutoff -> 10 A rdf range)
+	not needing log.lammps anymore
+	not creating rdf/ subdirectory
+	zeroing linear velocities
+
 2014-06-30	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* src/lmpio.cpp: autoformatted

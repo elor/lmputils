@@ -5,6 +5,7 @@
 	not needing log.lammps anymore
 	not creating rdf/ subdirectory
 	zeroing linear velocities
+	removed specialized code for charge atomstyle (including tmp files)
 
 2014-06-30	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 

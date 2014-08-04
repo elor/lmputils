@@ -80,20 +80,11 @@ $(
 EOF
 )
 
-# preparing lmp copy
-
-if [ "$(echo $atomstyle)" == "atom_style charge" ]; then
-    tmpfile=/tmp/pid$$_$RANDOM.lmp
-    lmpcharges.sh "$lmpfile" > $tmpfile
-else
-    tmpfile="$lmpfile"
-fi
-
 echo "running lammps"
 
 lammpscmds="
 $atomstyle
-read_data $tmpfile
+read_data $lmpfile
 velocity all zero linear
 pair_style lj/cut 10
 pair_coeff * * 0 0
@@ -109,7 +100,3 @@ $lammpscmds
 EOF
 
 (( $? != 0 )) && echo "lammps failed!" || echo "rdf calculations done"
-
-if [ "$tmpfile" != "$lmpfile" ]; then
-    rm $tmpfile
-fi

@@ -1,3 +1,7 @@
+2014-08-05	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
+
+	* scripts/lmpsetmasses.sh: added
+
 2014-08-04	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmp2rdf.sh: reading atomstyle from 'lmp2tomstyle' program, which is based on the lammps library

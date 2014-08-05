@@ -73,7 +73,7 @@ $(
   for pair in $typepairs; do
     types=`echo $pair | cut -d: -f 1`
     ids=`echo $pair | cut -d: -f 2`
-    echo "compute rdf$types all rdf 400 $ids"
+    echo "compute rdf$types all rdf 5000 $ids"
     echo "fix $types all ave/time 10 1 10 c_rdf$types file $types.rdf mode vector"
   done
 )

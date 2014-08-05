@@ -2,6 +2,8 @@
 
 	* scripts/lmpsetmasses.sh: added
 
+	* scripts/lmp2rdf.sh: using 5000 bins for additional accuracy. Produces rough datasets which require smoothing before plotting
+
 2014-08-04	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmp2rdf.sh: reading atomstyle from 'lmp2tomstyle' program, which is based on the lammps library

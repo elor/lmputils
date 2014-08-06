@@ -1,6 +1,8 @@
 2014-08-06	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmp2rdf.sh: using only the most likely atom_style
+	* scripts/xyz2lmp.sh: correcting the box size by shrink-wrapping after atomsk ruined it
+	setting masses using lmpsetmasses.sh
 
 2014-08-05	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 

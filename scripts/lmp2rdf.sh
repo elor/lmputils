@@ -36,7 +36,7 @@ lmpfile="$1"
 [ -f "$lmpfile" ] || fail
 
 # get atom style by guessing from lmp file format
-atomstyle="atom_style `lmp2atomstyle "$lmpfile"`"
+atomstyle="atom_style `lmp2atomstyle "$lmpfile" | grep -o '^[a-z]*'`"
 
 # retrieve masses in order
 masses=`echo $(sed -n '/Masses/,/Atoms/ s/^\s*[1-9][0-9]*\s*//p' "$lmpfile")`

@@ -4,6 +4,7 @@
 	help typo fixed
 	print loop reformatted for clearness
 
+	* scripts/lmpsetmasses.sh: Comment-insecurity fixed somewhat. Still not perfect.
 
 2014-08-06	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 

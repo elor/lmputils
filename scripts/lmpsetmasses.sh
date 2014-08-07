@@ -31,7 +31,7 @@ removemasses(){
 #    [ "$1" == '--' ] && local opt="" || local opt="-i"
     opt=-i
 
-    sed $opt '/Masses/,/Atoms/ { /Atoms/b;d }' "$1"
+    sed $opt '/^Masses\s*$/,/^Atoms\s*$/ { /^Atoms\s*/b;d }' "$1"
 }
 
 massestmpfile(){
@@ -58,7 +58,7 @@ writemasses(){
 #    [ "$1" == '--' ] && local opt="" || local opt="-i"
     opt=-i
 
-    sed $opt "/Atoms/ {\
+    sed $opt "/^Atoms\s*$/ {\
 r $tmpfile
 d
 }" "$1"

@@ -1,6 +1,9 @@
 2014-08-07	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmpsizes.py: not ignoring the comments line anymore
+	help typo fixed
+	print loop reformatted for clearness
+
 
 2014-08-06	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 

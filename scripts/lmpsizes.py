@@ -30,7 +30,7 @@ Operations:
     +[number]
         add a padding of [number] units to the box
 
-    +[number]
+    -[number]
         remove padding of [number] units from the box
 
     =[number]
@@ -366,19 +366,18 @@ print lines[0].strip()
 
 for line in lines[1:]:
 
-  if re.match('^[A-Z][a-zA-Z ]*$', line):
-    section = ' '.join(line.split())
+    if re.match('^[A-Z][a-zA-Z ]*$', line):
+        section = ' '.join(line.split())
 
-  if section == '' and re.match('^(\s*[-+.0-9eE]+\s){2}\s*[xyz]lo\s+[xyz]hi\s*$', line):
-    line = line.split()
-    print("      %f      %f  %s %s"%(sizes[line[2]], sizes[line[3]], line[2], line[3]))
-  elif section == 'Atoms':
-    if re.match('^\s*Atoms\s*$', line):
-      # print all preformatted atoms
-      printAtoms(atoms)
+    if section == '' and re.match('^(\s*[-+.0-9eE]+\s){2}\s*[xyz]lo\s+[xyz]hi\s*$', line):
+        line = line.split()
+        print("      %f      %f  %s %s"%(sizes[line[2]], sizes[line[3]], line[2], line[3]))
+    elif section == 'Atoms':
+        if re.match('^\s*Atoms\s*$', line):
+            # print all preformatted atoms
+            printAtoms(atoms)
+        else:
+            # don't print the normal atoms and empty lines
+            pass
     else:
-      # don't print the normal atoms and empty lines
-      pass
-  else:
-    print(line),
-
+        print(line),

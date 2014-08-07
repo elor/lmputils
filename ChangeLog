@@ -3,6 +3,7 @@
 	* scripts/lmpsizes.py: not ignoring the comments line anymore
 	help typo fixed
 	print loop reformatted for clearness
+	catching IOErrors due to closed pipes
 
 	* scripts/lmpsetmasses.sh: Comment-insecurity fixed somewhat. Still not perfect.
 

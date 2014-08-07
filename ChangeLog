@@ -1,8 +1,14 @@
+2014-08-07	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
+
+	* scripts/lmpsizes.py: not ignoring the comments line anymore
+
 2014-08-06	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmp2rdf.sh: using only the most likely atom_style
+
 	* scripts/xyz2lmp.sh: correcting the box size by shrink-wrapping after atomsk ruined it
 	setting masses using lmpsetmasses.sh
+
 	* scripts/lmpdata.sh: print available data for each lmp file argument
 
 2014-08-05	Erik E. Lorenz	<erik.e.lorenz@gmail.com>

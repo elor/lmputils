@@ -360,10 +360,11 @@ sizes = data['sizes']
 section=''
 
 # insert into old file and print
-for line in lines:
-  if line == lines[0]:
-    # ignore the comment line
-    continue
+
+# comment line
+print lines[0].strip()
+
+for line in lines[1:]:
 
   if re.match('^[A-Z][a-zA-Z ]*$', line):
     section = ' '.join(line.split())

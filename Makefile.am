@@ -19,5 +19,6 @@ lmpiotest_SOURCES = src/lmpiotest.cpp
 lmpiotest_LDADD = -llammps_custom -lmpi_stubs
 lmpiotest_LDFLAGS = -lfftw3 -llmpio
 
-dist_bin_SCRIPTS = scripts/*.sh scripts/*.py
+dist_bin_SCRIPTS = $(top_srcdir)/scripts/*.sh
+dist_bin_SCRIPTS += $(top_srcdir)/scripts/*.py
 

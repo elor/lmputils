@@ -1,3 +1,7 @@
+2014-08-11	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
+
+	* Makefile.am: make distcheck enabled
+
 2014-08-07	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmpsizes.py: not ignoring the comments line anymore

@@ -1,0 +1,6 @@
+lmpio (2014-08-14)
+-----------------
+
+FEATURES:
+	* lmpio can read files without mass information (sets masses to 0.0)
+

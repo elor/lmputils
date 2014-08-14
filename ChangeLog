@@ -2,6 +2,9 @@
 
 	* Makefile.am: make distcheck enabled
 
+	* src/lmpio.cpp: using mass_setflag to verify whether a mass has been set before reading it
+	testing whether mass and mass_setflag arrays exist before reading them
+
 2014-08-07	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* scripts/lmpsizes.py: not ignoring the comments line anymore

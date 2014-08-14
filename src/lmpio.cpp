@@ -192,15 +192,29 @@ extern int lmpio_read(const char *filename, double **positions, int **types,
   if (masses != NULL)
   {
     double *mass = lammps.atom->mass;
-
-    *masses = reinterpret_cast<double*>(malloc((*numtypes) * sizeof(double)));
-
-    for (size_t type = 0; type < *numtypes; ++type)
+    int *massflag = lammps.atom->mass_setflag;
+    if (mass != NULL && massflag != NULL)
     {
-      (*masses)[type] = mass[type + 1];
-    }
+      *masses = reinterpret_cast<double*>(malloc((*numtypes) * sizeof(double)));
 
-    // done
+      for (size_t type = 0; type < *numtypes; ++type)
+      {
+        if (massflag[type + 1])
+        {
+          // mass is set
+          (*masses)[type] = mass[type + 1];
+        } else
+        {
+          // mass is not set. just zero it.
+          (*masses)[type] = 0.0;
+        }
+      }
+      // done
+    } else
+    {
+      // no masses set
+      *masses = NULL;
+    }
   }
 
   // extract size

@@ -102,7 +102,9 @@ extern int lmpio_read(const char *filename, double **positions, int **types,
   delete[] argv;
 
   // atom_style
-  lammps.atom->create_avec(style, 0, NULL, lammps.suffix);
+  // AAaaand the LAMMPS team changed the
+//  lammps.atom->create_avec(style, 0, NULL, lammps.suffix);
+  lammps.atom->create_avec(style, 0, NULL, 1);
 
   // read_data
   ReadData rd(&lammps);

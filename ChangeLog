@@ -1,3 +1,7 @@
+2015-02-03	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
+
+	* src/lmpio.cpp: adopting the new create_avec definition
+
 2014-08-11	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* Makefile.am: make distcheck enabled
@@ -45,4 +49,3 @@
 	* scripts/lmpcharges.sh: lmpsizes.sh reference corrected to lmpsizes.py
 
 	* scripts/lmpmass.py: help text bug fixed
-

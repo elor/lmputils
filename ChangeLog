@@ -2,6 +2,8 @@
 
 	* src/lmpio.cpp: adopting the new create_avec definition
 
+	* src/lmplog2volume.sh: script to extract the volume from a lammps.log file
+
 2014-08-11	Erik E. Lorenz	<erik.e.lorenz@gmail.com>
 
 	* Makefile.am: make distcheck enabled
